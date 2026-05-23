@@ -1,9 +1,10 @@
 {
   "private": true,
   "scripts": {
-    "dev": "next",
+    "dev": "next -p 8080",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "tc": "tsc"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.0",
