@@ -5,13 +5,14 @@ import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
+import {useState} from "react";
 
 export default function MovieEntryUI() {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [email, setEmail] = useState('');
   
   const handleClickOpen = () => {
     setOpen(true);
@@ -27,6 +28,7 @@ export default function MovieEntryUI() {
     const formJson = Object.fromEntries((formData as any).entries());
     const email = formJson.email;
     console.log(email);
+    console.log('email: ', email);
     handleClose();
   };
   
@@ -35,7 +37,7 @@ export default function MovieEntryUI() {
     <Dialog open={open} onClose={handleClose}>
       <DialogTitle>New Movie</DialogTitle>
       <DialogContent>
-        <Box sx={{ width: 600 }}>
+        <Box sx={{ width: 500 }}>
           <form onSubmit={handleSubmit} id="subscription-form">
             <TextField
               autoFocus
@@ -47,6 +49,8 @@ export default function MovieEntryUI() {
               type="email"
               fullWidth
               variant="standard"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </form>
         </Box>
