@@ -7,6 +7,7 @@ type Inputs = {
   age: string,
 };
 
+// with react hook form
 export default function SimpleForm() {
   const {
     register,

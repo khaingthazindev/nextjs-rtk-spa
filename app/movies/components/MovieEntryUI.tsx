@@ -9,8 +9,14 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import {useState} from "react";
+import {useForm} from "react-hook-form";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {MovieFormData, MovieFormSchema} from "@/lib/schema/schema";
 
 export default function MovieEntryUI() {
+  const { register, handleSubmit, watch, formState: { errors} } = useForm<MovieFormSchema>({
+    resolver: zodResolver(MovieFormData)
+  });
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState('');
   
@@ -22,15 +28,7 @@ export default function MovieEntryUI() {
     setOpen(false);
   };
   
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const formJson = Object.fromEntries((formData as any).entries());
-    const email = formJson.email;
-    console.log(email);
-    console.log('email: ', email);
-    handleClose();
-  };
+  const onSubmit = (data: MovieFormSchema) => console.log(data);
   
   return (<div>
     <Button size={'large'} variant={'contained'} onClick={handleClickOpen}>New</Button>
@@ -38,20 +36,41 @@ export default function MovieEntryUI() {
       <DialogTitle>New Movie</DialogTitle>
       <DialogContent>
         <Box sx={{ width: 500 }}>
-          <form onSubmit={handleSubmit} id="subscription-form">
+          <form onSubmit={handleSubmit(onSubmit)} id="subscription-form">
             <TextField
-              autoFocus
-              required
-              margin="dense"
-              id="name"
-              name="email"
-              label="Email Address"
-              type="email"
+              label="Title"
+              { ...register('title') }
+              error={!!errors.title}
+              helperText={errors.title?.message}
               fullWidth
-              variant="standard"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              margin="normal"
             />
+            <TextField
+              type={'number'}
+              label="Year"
+              { ...register('year') }
+              error={!!errors.year}
+              helperText={errors.year?.message}
+              fullWidth
+              margin="normal"
+            />
+            <TextField
+              label="Director Name"
+              { ...register('director.name') }
+              error={!!errors.director?.name}
+              helperText={errors.director?.name?.message}
+              fullWidth
+              margin="normal"
+            />
+            <TextField
+              label="Phone Number"
+              { ...register('director.phoneNo') }
+              error={!!errors.director?.phoneNo}
+              helperText={errors.director?.phoneNo?.message}
+              fullWidth
+              margin="normal"
+            />
+            <Button type={'submit'} variant={'contained'} color={'primary'}>Submit</Button>
           </form>
         </Box>
       </DialogContent>
