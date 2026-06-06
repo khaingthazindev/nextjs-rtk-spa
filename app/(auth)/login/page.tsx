@@ -1,5 +1,9 @@
+'use client';
+
+import LoginUI from "@/app/(auth)/login/LoginUI";
+
 export default function LoginPage() {
   return (<div>
-    <h1>Login Page</h1>
+    <LoginUI />
   </div>)
 }

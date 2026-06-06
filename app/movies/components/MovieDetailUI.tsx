@@ -1,9 +1,9 @@
 'use client';
 
-import {Movie} from "@/lib/model/model";
+import {Movie, Review} from "@/lib/model/model";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import MovieUI from "@/app/movies/components/MoveiUI";
+import MovieUI from "@/app/movies/components/MovieUI";
 
 function renderAction(movie: Movie) {
   return (<>

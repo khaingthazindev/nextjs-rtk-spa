@@ -7,7 +7,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 
 import {Movie} from "@/lib/model/model";
-import styles from '@/app/movies/components/movieui.module.css';
+import styles from '@/app/movies/components/MovieUI.module.css';
 import {ReactNode} from "react";
 
 interface MovieUIProps {

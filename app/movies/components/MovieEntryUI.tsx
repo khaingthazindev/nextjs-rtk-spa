@@ -18,7 +18,6 @@ export default function MovieEntryUI() {
     resolver: zodResolver(MovieFormData)
   });
   const [open, setOpen] = useState(false);
-  const [email, setEmail] = useState('');
   
   const handleClickOpen = () => {
     setOpen(true);
@@ -30,7 +29,7 @@ export default function MovieEntryUI() {
   
   const onSubmit = (data: MovieFormSchema) => console.log(data);
   
-  return (<div>
+  return (<div style={{padding: '10px'}}>
     <Button size={'large'} variant={'contained'} onClick={handleClickOpen}>New</Button>
     <Dialog open={open} onClose={handleClose}>
       <DialogTitle>New Movie</DialogTitle>
@@ -74,12 +73,6 @@ export default function MovieEntryUI() {
           </form>
         </Box>
       </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
-        <Button type="submit" form="subscription-form">
-          Save
-        </Button>
-      </DialogActions>
     </Dialog>
   </div>);
 }

@@ -1,7 +1,7 @@
 'use client';
 
 import {Movie} from "@/lib/model/model";
-import MovieUI from "@/app/movies/components/MoveiUI";
+import MovieUI from "@/app/movies/components/MovieUI";
 import Button from "@mui/material/Button";
 import {useRouter} from "next/navigation";
 
