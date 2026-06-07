@@ -1,17 +1,13 @@
 'use client';
 
-import {useParams, useRouter} from "next/navigation";
+import {useRouter} from "next/navigation";
 import {Movie, Review} from "@/lib/model/model";
 import MovieDetailUI from "@/app/movies/components/MovieDetailUI";
 import Button from "@mui/material/Button";
 import ReviewListUI from "@/app/movies/components/ReviewListUI";
 import ReviewEntryUI from "@/app/movies/components/ReviewEntryUI";
 import * as React from "react";
-import {useState} from "react";
-
-type Params = {
-  id: string;
-}
+import useModal from "@/lib/hooks/useModal";
 
 const movie:Movie = {
   "_id": "69e4ba99f31b3a4deeecdf1b",
@@ -43,18 +39,10 @@ export default function MovieDetailPage() {
     }
   ];
   
-  const [open, setOpen] = useState(false);
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
-  
+  const {open, handleOpen, handleClose} = useModal();
   const newButtonHandler = () => {
-    handleClickOpen();
+    handleOpen();
   }
-  
   const modelCloseHandler = () => {
     handleClose();
   }

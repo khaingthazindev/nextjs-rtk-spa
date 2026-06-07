@@ -14,6 +14,7 @@ import AdbIcon from '@mui/icons-material/Adb';
 import Link from "next/link";
 import {MenuList} from "@mui/material";
 import MenuLink from "@/app/components/MenuLink";
+import useAuth from "@/lib/hooks/useAuth";
 
 const pages = ['Home', 'Movies', 'Login'];
 const links = ['/', '/movies', '/login'];
@@ -21,6 +22,7 @@ const links = ['/', '/movies', '/login'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function NavBar() {
+  const isAuthenticated = useAuth();
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
   
@@ -123,8 +125,18 @@ function NavBar() {
           <Box>
             <MenuList sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'}}}>
               <MenuLink url={'/home'} label={'Home'}/>
-              <MenuLink url={'/movies'} label={'Movies'}/>
-              <MenuLink url={'/login'} label={'Login'}/>
+              {
+                isAuthenticated && <MenuLink url={'/movies'} label={'Movies'}/>
+              }
+              
+              {
+                !isAuthenticated && <MenuLink url={'/login'} label={'Login'}/>
+              }
+              
+              {
+                isAuthenticated && <MenuLink url={'/logout'} label={'Logout'}/>
+              }
+              
             </MenuList>
             {/*
             {pages.map((page, index) => (

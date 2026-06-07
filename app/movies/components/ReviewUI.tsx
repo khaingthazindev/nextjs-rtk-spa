@@ -11,27 +11,21 @@ import Button from "@mui/material/Button";
 import * as React from "react";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import {useState} from "react";
 import ReviewEntryUI from "@/app/movies/components/ReviewEntryUI";
+import useModal from "@/lib/hooks/useModal";
 
 interface ReviewUIProps {
   review: Review,
 }
 
 export default function ReviewUI({review} : ReviewUIProps) {
-  const [open, setOpen] = useState(false);
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const {open, handleOpen, handleClose}= useModal();
+  
   const modelCloseHandler = () => {
     handleClose();
   }
-  
   const onEditHandler = () => {
-    handleClickOpen();
+    handleOpen();
   }
   return (<div>
     <ReviewEntryUI modelOpen={open} modelCloseHandler={modelCloseHandler} reviewToEdit={review} />

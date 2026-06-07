@@ -3,6 +3,12 @@
 import {Movie} from "@/lib/model/model";
 import MovieListUI from "@/app/movies/components/MovieListUI";
 import MovieEntryUI from "@/app/movies/components/MovieEntryUI";
+import Button from "@mui/material/Button";
+import * as React from "react";
+import useModal from "@/lib/hooks/useModal";
+import useAuth from "@/lib/hooks/useAuth";
+import {useRouter} from "next/navigation";
+import WithProtectedRoute from "@/app/components/WithProtectedRoute";
 
 const movies: Movie[] = [
   {
@@ -37,9 +43,18 @@ const movies: Movie[] = [
   },
 ];
 
-export default function MoviesPage() {
-  return (<div>
-    <MovieEntryUI />
-    <MovieListUI movies={movies} />
-  </div>);
+function MoviesPage() {
+  const {open, handleOpen, handleClose} = useModal();
+  const modelCloseHandler = () => {
+    handleClose();
+  }
+  
+    return (<div>
+      <Button size={'large'} variant={'contained'} onClick={handleOpen}>New</Button>
+      <MovieEntryUI modelOpen={open} modelCloseHandler={modelCloseHandler} />
+      <MovieListUI movies={movies} />
+    </div>);
 }
+
+const ProtectedMoviePage = WithProtectedRoute(MoviesPage);
+export default ProtectedMoviePage;

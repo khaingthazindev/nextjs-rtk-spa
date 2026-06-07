@@ -7,13 +7,17 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import * as React from "react";
+import useLogin from "@/lib/hooks/useLogin";
 
 export default function LoginUI() {
+  
+  const loginAction = useLogin();
+  
   const { register, handleSubmit, watch, formState: { errors} } = useForm<LoginFormSchema>({
     resolver: zodResolver(LoginFormData)
   });
   const onSubmit = (data: LoginFormSchema) => {
-    console.log('login form data: ', data);
+    loginAction(data);
   }
   
   return (<div>
