@@ -38,11 +38,9 @@ export const authSlice = createAppSlice({
         
         },
         fulfilled: (state, action) => {
-          console.log('fulfilled action: ', action);
           state.token = action?.payload?.token??'';
         },
         rejected: (state, action) => {
-          console.log('rejected: ', action);
           state.token = '';
         },
       },

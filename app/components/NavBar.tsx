@@ -124,7 +124,10 @@ function NavBar() {
           </Typography>
           <Box>
             <MenuList sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'}}}>
-              <MenuLink url={'/home'} label={'Home'}/>
+              {
+                isAuthenticated && <MenuLink url={'/home'} label={'Home'}/>
+              }
+              
               {
                 isAuthenticated && <MenuLink url={'/movies'} label={'Movies'}/>
               }

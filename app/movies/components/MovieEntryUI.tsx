@@ -12,6 +12,7 @@ import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {MovieFormData, MovieFormSchema} from "@/lib/schema/schema";
 import {Movie} from "@/lib/model/model";
+import {useSaveMovieMutation, useUpdateMovieMutation} from "@/lib/features/movie/movieApiSlice";
 
 interface MovieEntryUIProps {
   modelOpen: boolean;
@@ -42,7 +43,32 @@ export default function MovieEntryUI({modelOpen, modelCloseHandler, movieToEdit}
     setOpen(modelOpen);
   }, [modelOpen]);
   
-  const onSubmit = (data: MovieFormSchema) => console.log(data);
+  const [saveMovie, result] = useSaveMovieMutation();
+  const [updateMovie, updateResult] = useUpdateMovieMutation();
+  const onSubmit = (data: MovieFormSchema) => {
+    if (movieToEdit) {
+      const newMovie = {
+        ...data,
+        _id: movieToEdit._id,
+      }
+      updateMovie(newMovie as Movie)
+        .unwrap()
+        .then((result) => {
+          modelCloseHandler();
+        }, (error) => {
+          modelCloseHandler();
+        });
+    } else {
+      saveMovie(data)
+        .unwrap()
+        .then((result) => {
+          modelCloseHandler();
+        }, (error) => {
+          console.log('movie save error: ', error);
+          modelCloseHandler();
+        });
+    }
+  };
 
   return (<div style={{padding: '10px'}}>
     <Dialog open={open} onClose={handleClose}>

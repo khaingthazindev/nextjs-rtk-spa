@@ -15,7 +15,7 @@ export default function MovieListUI({movies}: MovieListUIProps) {
   }
   return (<div>
     {
-      movies.map((movie) => <MovieUI
+      movies?.map((movie) => <MovieUI
         key={movie._id}
         movie={movie}
         renderAction={(movie: Movie) => (
