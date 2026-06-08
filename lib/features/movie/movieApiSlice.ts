@@ -23,6 +23,7 @@ export const movieApiSlice = createApi({
       query: () => `/api/movies`,
     }),
     
+    // Pestimistic Create
     saveMovie: build.mutation<ApiResponse<Movie>, Omit<Movie, '_id' | 'director'> & {
       director: Omit<Director, '_id'>;
     }>({
@@ -73,7 +74,28 @@ export const movieApiSlice = createApi({
         }
       },
     }),
+    
+    // Optimistic Delete
+    deleteMovie: build.mutation<Movie, Movie>({
+      query: (movie) => ({
+        url: `/api/movies/${movie._id}`,
+        method: 'DELETE',
+      }),
+      async onQueryStarted(movie, { dispatch, queryFulfilled }) {
+        const patchResult = dispatch(
+          movieApiSlice.util.updateQueryData('getAllMovies', undefined, (draft) => {
+            draft.data = draft.data.filter((m) => m._id !== movie._id);
+          })
+        );
+        
+        try {
+          await queryFulfilled;
+        } catch {
+          patchResult.undo();
+        }
+      },
+    }),
   }),
 });
 
-export const { useGetAllMoviesQuery, useSaveMovieMutation, useUpdateMovieMutation } = movieApiSlice;
+export const { useGetAllMoviesQuery, useSaveMovieMutation, useUpdateMovieMutation, useDeleteMovieMutation } = movieApiSlice;
