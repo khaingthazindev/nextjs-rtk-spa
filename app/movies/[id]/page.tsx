@@ -18,24 +18,8 @@ export default function MovieDetailPage() {
     }),
   });
   const { data: response, isError, isLoading, isSuccess } = useGetAllReviewsByMovieIdQuery(id);
-  console.log('reviews: ', response);
   
   const router = useRouter();
-  
-  // const reviews: Review[] = [
-  //   {
-  //     "_id": "03468le0y39630683064",
-  //     "movie": "0634634634",
-  //     "rating": 3,
-  //     "review": "Good",
-  //   },
-  //   {
-  //     "_id": "03468le0y3963683064",
-  //     "movie": "0634634634",
-  //     "rating": 2,
-  //     "review": "Not Bad",
-  //   }
-  // ];
   
   const {open, handleOpen, handleClose} = useModal();
   const newButtonHandler = () => {
@@ -49,7 +33,10 @@ export default function MovieDetailPage() {
     <h3>Movie Detail</h3>
     <Button size={'medium'} onClick={() => router.push('/movies')}>Back</Button>
     { movie && <MovieDetailUI movie={movie} /> }
-    <ReviewEntryUI modelOpen={open} modelCloseHandler={modelCloseHandler} />
+    <ReviewEntryUI
+      movieId={id}
+      modelOpen={open}
+      modelCloseHandler={modelCloseHandler} />
     
     <div style={{padding: '10px'}}>
       <Button size={'large'} variant={'contained'} onClick={newButtonHandler}>New</Button>

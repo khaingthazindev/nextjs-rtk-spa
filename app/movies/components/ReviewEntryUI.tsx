@@ -13,14 +13,19 @@ import {ReviewFormData, ReviewFormSchema} from "@/lib/schema/schema";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Stack} from "@mui/system";
 import {Rating} from "@mui/material";
-import {Review} from "@/lib/model/model";
+import {Review, ReviewApiResponse} from "@/lib/model/model";
+import {useSaveReviewMutation, useUpdateReviewMutation} from "@/lib/features/review/reviewsApiSlice";
 
 interface ReviewEntryUIProps {
+  movieId: string;
   modelOpen: boolean;
   modelCloseHandler: () => void,
-  reviewToEdit?: Review,
+  reviewToEdit?: ReviewApiResponse,
 }
-export default function ReviewEntryUI({modelOpen, modelCloseHandler, reviewToEdit}: ReviewEntryUIProps) {
+export default function ReviewEntryUI({movieId, modelOpen, modelCloseHandler, reviewToEdit}: ReviewEntryUIProps) {
+  const [saveReview, result] = useSaveReviewMutation();
+  const [updateReview, updateResult] = useUpdateReviewMutation();
+  
   const {
     register,
     handleSubmit,
@@ -45,10 +50,45 @@ export default function ReviewEntryUI({modelOpen, modelCloseHandler, reviewToEdi
     setValue('rating', rating);
   }
   
-  const onSubmit = (data: ReviewFormSchema) => console.log(data);
+  const onSubmit = (data: ReviewFormSchema) => {
+    if (reviewToEdit) {
+      console.log('reviewToEdit: ', reviewToEdit);
+      const editReview: Review = {
+        ...data,
+        '_id': reviewToEdit._id,
+        movie: movieId
+      }
+      console.log('editReview: ', editReview);
+      
+      updateReview(editReview)
+        .unwrap()
+        .then((result) => {
+          handleClose();
+        }, (error) => {
+          console.log('update review error: ', error);
+          handleClose();
+        });
+    } else {
+      const newReview: Review = {
+        ...data,
+        movie: movieId
+      }
+      console.log('newReview:', newReview);
+      saveReview(newReview)
+        .unwrap()
+        .then((res) => {
+          handleClose();
+          reset({
+            review: ''
+          });
+        }, (error) => {
+          handleClose();
+        });
+    }
+  };
   
   useEffect(() => {
-    setOpen(modelOpen)
+    setOpen(modelOpen);
   }, [modelOpen]);
   
   return (<div>

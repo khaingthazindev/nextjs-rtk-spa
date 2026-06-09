@@ -1,5 +1,5 @@
 export interface Director {
-  _id: string;
+  _id?: string;
   name: string;
   phoneNo: string;
 }
@@ -11,8 +11,15 @@ export interface Movie {
   director: Director;
 }
 
+export interface ReviewApiResponse {
+  _id?: string,
+  movie: Movie,
+  rating: number,
+  review: string,
+}
+
 export interface Review {
-  _id: string,
+  _id?: string,
   movie: string,
   rating: number,
   review: string,
